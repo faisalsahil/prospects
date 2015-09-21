@@ -1,0 +1,53 @@
+.row-fluid
+  .span3.well
+    %h4 Company Info
+    %dl
+      %dt Name
+      %dd
+        %span.rest-in-place{ "data-attribute" => "company_name" }= prospect.company_name.presence || 'n/a'
+        [#{prospect.ticker.upcase}]
+      %dt Website
+      %dd= link_to_if prospect.website.present?, prospect.website.presence || 'n/a', prospect.website, :target => "_blank"
+      %dt Cik
+      %dd
+        %span= prospect.raw_cik
+        = link_to "(secinfo.com)", "http://www.secinfo.com/$/SEC/Registrant.asp?CIK=#{prospect.raw_cik}", :target => "_blank"
+        = link_to "(sec.gov)", "http://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=#{prospect.cik}&type=&dateb=&owner=only&count=100", :target => "_blank"
+      %dt # of Form 4s
+      %dd= prospect.form4_filings.presence || 'n/a'
+      %dt # of RO
+      %dd 'n/a'
+      %dt Address
+      %dd
+        %span.rest-in-place{ "data-attribute" => "company_address" }= prospect.company_address.presence || 'n/a'
+  .span3.well
+    %h4 Contact
+    %dl
+      %dt Phone Number
+      %dd
+        %span.rest-in-place{ "data-attribute" => "phone_number" }= prospect.phone_number.presence || 'n/a'
+      %dt Fax Number
+      %dd
+        %span.rest-in-place{ "data-attribute" => "fax_number" }= prospect.fax_number.presence || 'n/a'
+      %dt Time Zone
+      %dd
+        %span.rest-in-place{ "data-attribute" => "time_zone" }= prospect.time_zone.presence || 'n/a'
+      %dt Local Time
+      %dd
+        %span= prospect.time_zone_offset && (Time.now.utc + prospect.time_zone_offset.hours).to_s(:short)
+      %dt Emailable
+      %dd
+        %span.rest-in-place{ "data-attribute" => "emailable" }= (!!prospect.emailable).to_s
+  .span3.well
+    %h4 Competitor
+    %dl
+      %dt Filing Agent
+      %dd
+        %span.rest-in-place{ "data-attribute" => "filing_agent" }= prospect.filing_agent.presence || 'n/a'
+  .span3.well
+    %h4 Tags
+    %p
+      %ul.unstyled
+        - prospect.tag_list.each do |tag|
+          %li.tag
+            %span.tag.label.label-info #{tag}

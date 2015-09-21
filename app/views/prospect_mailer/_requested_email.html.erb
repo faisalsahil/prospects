@@ -1,0 +1,45 @@
+Hello <%= contact_first_name %>,<br/>
+<br/>
+I am writing to provide you with additional information about our online Section 16 filing solution, <%= link_to "www.marketforms.com", "https://www.marketforms.com" %>.<br/>
+<br/>
+We are currently offering a <b>30-day free trial</b> to <%= link_to "www.marketforms.com", "https://www.marketforms.com" %> and we're serious about "free".  We don't take any payment information and there is no contract or obligation to sign.  We simply provide you with a fully functional account so you can try our service at your leisure.<br/>
+<br/>
+Some features that set Marketforms apart from other Section 16 filing software:
+<ul>
+  <li>
+    <b>Single page form design:  No Training Required.</b>  Our forms look like the SEC's forms. No multiple tabs/pages to click through, everything is on one single webpage that you're already familiar with.
+  </li>
+  <li>
+    <b>Patent pending real time validation engine:</b>  We validate all of your entries as you enter them against Edgar validation, so you'll never file a non-EDGAR compliant filing again.
+  </li>
+  <li>
+    <b>Autocalculation of your Table 1 and Table 2 entries:</b>  We take the pain out of calculating post-transaction table 1 and table 2 holding amounts.
+  </li>
+  <li>
+    <b>1-click import to import your last 12 months of filings:</b>  Simply enter your Issuer or Reporting Owner CIK and we will import up to 12 months of previous filings into your account.  This fills your form data database so that the next time you create a filing, our predictive auto-completion tool will help you populate your form with text entries from your previous filings.  If you'd like more than 12 months of your past filings to be imported, we can definitely accommodate you.
+  </li>
+  <li>
+    <b>A supported solution:</b>  Got a question?  Call our 1-800 number during business hours and speak to someone that can answer your Section 16 questions.
+  </li>
+  <li>
+    <b>Other time saving features:</b> Such as the ability to clone Table 1 or Table 2 rows, a flexible footnote engine that maintains a library of previous footnotes that you've entered (or imported) and simple POA attachment capability are just some of the other time saving features we have built into our product.
+  </li>
+</ul>
+
+We believe in delivering value to our clients and there's no better way of showing the value we can deliver other than by having you try our product and give us a shot at earning your business.<br/>
+<br/>
+Otherwise, feel free to check out our website, <%= link_to "www.marketforms.com", "https://www.marketforms.com" %>.  If you have any questions, feel free to call or email me any time.<br/>
+<br/>
+Sincerely,<br/>
+<%= user.first_name %><br/>
+<br/>
+<b><%= user.full_name%></b><br/>
+<b>Marketforms LLC</b><br/>
+<%= user.phone %> | Direct<br/>
+877-732-4774 | Toll free fax<br/>
+<%= user.email %> | <%= link_to "www.marketforms.com", "https://www.marketforms.com" %><br/>
+<br/>
+<%= image_tag "https://d1zvlx3mm16ttw.cloudfront.net/images/custom/Marketforms-Section16-Filings-logo.png?1345413012" %>
+<br/>
+<br/>
+<%= link_to "Download Marketforms Brochure", "https://d1zvlx3mm16ttw.cloudfront.net/Marketforms_Brochure.pdf" %>

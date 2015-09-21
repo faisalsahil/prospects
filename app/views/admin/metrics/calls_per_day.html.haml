@@ -1,0 +1,24 @@
+%h2 Calls Per Day
+
+%table.table.table-bordered.table-striped
+  %thead
+    %tr
+      %th
+      %th Voicemails
+      %th Callback Later
+      %th Requested Email
+      %th Inbound Call
+      %th Scheduled Demo
+      %th Not Interested
+      %th Total # of Calls
+  %tbody
+    - @days.each do |day|
+      %tr
+        %td= day.to_date.to_s
+        %td= Event::Call.voicemail.by_date(day).count
+        %td= Event::Call.callback_later.by_date(day).count
+        %td= Event::Call.requested_email.by_date(day).count
+        %td= Event::Call.inbound_call.by_date(day).count
+        %td= Event::Call.scheduled_demo.by_date(day).count
+        %td= Event::Call.not_interested.by_date(day).count
+        %td= Event::Call.by_date(day).count

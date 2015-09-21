@@ -1,0 +1,24 @@
+%h2 Calls by User over All Time
+
+%table.table.table-bordered.table-striped
+  %thead
+    %tr
+      %th
+      %th Voicemails
+      %th Callback Later
+      %th Requested Email
+      %th Inbound Call
+      %th Scheduled Demo
+      %th Not Interested
+      %th Total # of Calls
+  %tbody
+    - @users.each do |user|
+      %tr
+        %td= user.first_name
+        %td= user.call_events.voicemail.count
+        %td= user.call_events.callback_later.count
+        %td= user.call_events.requested_email.count
+        %td= user.call_events.inbound_call.count
+        %td= user.call_events.scheduled_demo.count
+        %td= user.call_events.not_interested.count
+        %td= user.call_events.count

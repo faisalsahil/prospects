@@ -1,0 +1,32 @@
+.subnav.subnav-fixed
+  .navbar-inner
+    .container
+      - if current_user.prospect_ids.include?(@prospect.id) || current_user.admin?
+        %ul.nav.nav-pills
+          %li
+            %a.tip{ "href" => "skype:+1#{@prospect.phone_number}?call", :title => "Call using Skype: +1#{@prospect.phone_number}<br/>Note: Assumes the country code is +1 for USA.", "data-placement" => "bottom" }
+              %i.icon-th
+              Skype Call
+          %li
+            %a{ "data-toggle" => "modal", "href" => "#call-modal" }
+              %i.icon-headphones
+              Log <span style="text-decoration: underline;">C</span>all
+          %li
+            %a{ "data-toggle" => "modal", "href" => "#email-modal" }
+              %i.icon-envelope
+              <span style="text-decoration: underline;">E</span>mail
+          %li
+            %a{ "data-toggle" => "modal", "href" => "#tag-modal" }
+              %i.icon-tag
+              <span style="text-decoration: underline;">T</span>ag
+
+%div{ "data-url" => "/api/prospects/#{@prospect.id}", "data-object" => "prospect" }
+  = render "shared/prospects/contact", :prospect => @prospect
+  = render "shared/prospects/info", :prospect => @prospect
+  .row-fluid
+    .span2
+    .span8.center
+      = render "shared/prospects/scheduling_demo", :prospect => @prospect
+
+- if current_user.prospect_ids.include?(@prospect.id) || current_user.admin?
+  = render "shared/prospects/modals", :prospect => @prospect

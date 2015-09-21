@@ -1,0 +1,10 @@
+.row
+  .span3
+    %h3 Tags
+    - tag_cloud @tags, ['tags1'] do |tag, css_class|
+      = link_to "#{tag.name} (#{tag.count})", "?tagged=#{tag.name}", :class => css_class
+      %br
+  .span9
+    %h3 Tagged
+    - @tagged.each do |tagged|
+      %div= link_to tagged.contact_name, [:admin, tagged]

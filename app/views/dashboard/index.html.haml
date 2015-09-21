@@ -1,0 +1,32 @@
+.subnav.subnav-fixed
+  .navbar-inner
+    .container
+      %ul.nav.nav-pills
+
+.row-fluid
+  .span4
+    %p
+      %h4 Review My Conversations
+      %strong (from this week)
+    = render "conversation", :conversations => @my_calls
+  .span4
+    %p
+      %h4 Review Team Conversations
+      %strong (from today)
+    = render "conversation", :conversations => @team_calls
+  .span4
+    %p
+      %h4 Prepare for Your Upcoming Demos
+      %strong (from #{Date.today.to_s(:short)} to #{Date.today.end_of_week.to_s(:short)})
+    - @user_demos.each do |call_event|
+      .well.well-small
+        %h5 Demo with #{call_event.prospect.contact_name}
+        - if call_event.follow_up
+          %p
+            Scheduled for #{call_event.follow_up.to_s(:long)} (in #{distance_of_time_in_words(Time.now, call_event.follow_up)}).
+            %br
+            = link_to "View #{call_event.prospect.contact_name}.", call_event.prospect
+    - if @user_demos.empty?
+      .well.well-small
+        %p No upcoming demos.
+        = link_to "Contact Prospects", prospects_path, :class => "btn btn-info"

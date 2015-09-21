@@ -1,0 +1,29 @@
+Make sure to mark the date in your calendar.
+
+<% if @event.response.present? %>
+<h2>Cold Caller's Notes</h2>
+<p><%= @event.response %>
+</p>
+<% end %>
+
+<h2>Company</h2>
+<%= "#{@prospect.company_name} [#{@prospect.ticker.upcase}]" %>
+<a href="<%= @prospect.website %>" target="_blank"><%= @prospect.website %></a><br/>
+<p>
+  <b>CIK:</b><%= @prospect.cik %>
+</p>
+<a href="http://www.secinfo.com/$/SEC/Registrant.asp?CIK=<%= @prospect.raw_cik %>" target="_blank">secinfo.com</a><br/>
+<a href="http://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&amp;CIK=<%= @prospect.cik %>&amp;type=&amp;dateb=&amp;owner=only&amp;count=100" target="_blank">sec.gov</a><br/>
+
+<h2>Filing Agent</h2>
+<%= @prospect.filing_agent %>
+
+<h2>Contact</h2>
+<% if @prospect.contact_position.present? %>
+  <%= @prospect.contact_name %>
+<% else %>
+  <%= "#{@prospect.contact_name}, #{@prospect.contact_position.try(:titleize)}" %>
+<% end %>
+<%= @prospect.phone_number %>
+
+For more information, visit <%= link_to "Prospects App", "https://prospects.herokuapp.com/admin/prospects/#{@prospect.id}" %>

@@ -1,0 +1,73 @@
+.subnav.subnav-fixed
+  .navbar-inner
+    .container
+      %ul.nav.nav-pills
+        %li
+          %a{ "href" => "#advanced-filter", :onclick => "$('#search').toggle('slide'); return false;" }
+            %i.icon-filter
+            Advanced Filtering
+        %li
+          %a{ "href" => "#assign-prospect", :onclick => "$('#assign').toggle('slide'); return false;" }
+            %i.icon-filter
+            Prospect Assignment
+
+%h2 Prospects
+
+.row-fluid
+  = render "shared/prospects/search"
+
+  .span6
+    #assign.hide
+      %h3 Assign
+      = form_tag mass_create_admin_prospect_assignments_path do
+        %p
+          %label{ :for => :user_id } User
+          = select_tag :assign_to_user_id, options_from_collection_for_select(User.all, :id, :email, params[:assign_to_user_id]), :prompt => "No One (unassigns)"
+        %p
+          %label{ :for => :limit } Limit Selection (leave blank to assign entire selection)
+          = text_field_tag :limit, params[:limit]
+        = hidden_field_tag :ciks, params[:ciks]
+        = hidden_field_tag :ids, params[:ids]
+        = hidden_field_tag :company_name, params[:company_name]
+        = hidden_field_tag :contact_name, params[:contact_name]
+        = hidden_field_tag :time_zone, params[:time_zone]
+        = hidden_field_tag :filing_agent, params[:filing_agent]
+        = hidden_field_tag :user_id, params[:user_id]
+        %p
+          = submit_tag "Assign filtered prospects to user", :class => "btn btn-warning"
+
+
+.pull-right
+  = will_paginate @prospects
+  %small{:style => "float: right;"} Displaying #{@prospects.total_entries} prospects
+
+.row-fluid
+  .span12
+    %table.table.table-bordered.table-striped
+      %tr
+        %th Priority
+        %th UTC offset
+        %th User
+        %th Last Event
+        %th Last Event Time
+        %th # of Calls
+        %th Contact Name
+        %th Company Name
+        %th Filing Agent
+        %th # of Form4s Filed
+      - @prospects.each do |prospect|
+        %tr
+          %td= prospect.priority
+          %td= prospect.time_zone
+          %td= prospect.users.map(&:email).join(', ')
+          %td= prospect.last_event_header
+          %td= prospect.last_event_time
+          %td= prospect.call_events.count
+          %td= link_to prospect.contact_name, [:admin, prospect]
+          %td= prospect.company_name
+          %td= prospect.filing_agent
+          %td= prospect.form4_filings
+      - if @prospects.empty?
+        %tr
+          %td{:colspan => 9}
+            .center No prospects match this search.

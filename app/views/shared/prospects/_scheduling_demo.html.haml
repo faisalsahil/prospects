@@ -1,0 +1,15 @@
+%h3 Scheduling a Demo
+%hr
+#scheduling_demo_events
+  - prospect.scheduling_demo_events.each do |event|
+    .row-fluid
+      .span2
+      .span8.well.well-small{ :class => event.css_class }
+        %h4= event.header
+        - event.body.each do |line|
+          %p= line
+        - if event.respond_to?(:file) && event.file.url
+          %audio{ :controls => "controls", :preload => "none" }
+            %source{ :src => "#{event.file.url}", :type => "audio/mpeg" }
+            Your browser does not support the audio element.
+          %p= link_to 'Download', event.file.url

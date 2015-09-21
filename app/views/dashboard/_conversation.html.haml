@@ -1,0 +1,19 @@
+- conversations.each do |call_event|
+  .well.well-small{ :class => call_event.type == Event::Call::SCHEDULED_DEMO ? "alert-info" : '' }
+    %h5.display-inline #{call_event.type}
+    %small (#{distance_of_time_in_words(call_event.created_at, Time.now)} ago)
+    %p
+      = link_to_if current_user.admin?, call_event.user.email, [:admin, call_event.user]
+      called
+      = link_to call_event.prospect.contact_name, call_event.prospect
+    - if call_event.response.present?
+      %p Notes: #{call_event.response}
+    - if call_event.file.url
+      %audio{ :controls => "controls", :preload => "none" }
+        %source{ :src => "#{call_event.file.url}", :type => "audio/mpeg" }
+        Your browser does not support the audio element.
+      = link_to "open", call_event.file.url, :target => "_blank"
+- if conversations.empty?
+  .well.well-small
+    %p No conversations.
+    = link_to "Contact Prospects", prospects_path, :class => "btn btn-info"

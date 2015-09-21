@@ -1,0 +1,18 @@
+connection: &connection
+  adapter: postgresql
+  host: localhost
+  encoding: unicode
+  pool: 5
+  timeout: 5000
+  min_messages: WARNING
+
+development:
+  <<: *connection
+  database: prospects_development
+
+test: &test
+  <<: *connection
+  database: prospects_test
+
+cucumber:
+  <<: *test

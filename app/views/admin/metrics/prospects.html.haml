@@ -1,0 +1,13 @@
+%h2 Prospects Analysis
+
+%table.table.table-bordered.table-striped
+  %thead
+    %tr
+      %th Filing Agent
+      %th # of Prospects
+  %tbody
+    - @prospects.group_by { |p| p.filing_agent.to_s.strip }.select { |k, v| v.size > 1 }.sort_by { |filing_agent, prospects| -prospects.size }.each do |filing_agent, prospects|
+      %tr
+        %td= filing_agent
+        %td= prospects.size
+

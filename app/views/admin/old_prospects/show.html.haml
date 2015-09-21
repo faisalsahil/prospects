@@ -1,0 +1,56 @@
+.subnav.subnav-fixed
+  .navbar-inner
+    .container
+      %ul.nav.nav-pills
+        %li
+          %a.tip{ "href" => "skype:+1#{@prospect.phone_number}?call", :title => "Call using Skype: +1#{@prospect.phone_number}<br/>Note: Assumes the country code is +1 for USA.", "data-placement" => "bottom" }
+            %i.icon-th
+            Skype Call
+        %li
+          %a{ "data-toggle" => "modal", "href" => "#call-modal" }
+            %i.icon-headphones
+            Log <span style="text-decoration: underline;">C</span>all
+        %li
+          %a{ "data-toggle" => "modal", "href" => "#email-modal" }
+            %i.icon-envelope
+            <span style="text-decoration: underline;">E</span>mail
+        %li
+          %a{ "data-toggle" => "modal", "href" => "#tag-modal" }
+            %i.icon-tag
+            <span style="text-decoration: underline;">T</span>ag
+
+
+%div{ "data-url" => "/api/prospects/#{@prospect.id}", "data-object" => "prospect" }
+  = render "shared/prospects/contact", :prospect => @prospect
+  = render "shared/prospects/info", :prospect => @prospect
+  .row-fluid
+    .span4.center
+      = render "shared/prospects/scheduling_demo", :prospect => @prospect
+    .span4.center
+      %h2 Demo
+      %hr
+    .span4.center
+      %h2 Trial Phase
+      %hr
+
+= render "shared/prospects/modals", :prospect => @prospect
+
+%hr
+
+- if @prospect.versions.any?
+  %h3 Change History
+
+  .row-fluid
+    .span12
+      %table.table.table-bordered.table-striped
+        %thead
+          %tr
+            %td User
+            %td Changes (format: field_name => [before, after] )
+            %td Time
+        %tbody
+          - @prospect.versions.each do |version|
+            %tr
+              %td= User.find(version.whodunnit.to_i).try(:email) rescue nil
+              %td= version.changeset
+              %td= version.created_at.to_s(:long)

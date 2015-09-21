@@ -1,0 +1,31 @@
+- users = User.all.map { |u| [u.email, u.id] } << ["Unassigned", "unassigned"]
+
+.span6
+  #search.hide
+    %h3 Search
+    %form.form-search{ :method => "GET" }
+      %p
+        %label{ :for => :ids } by IDs
+        %input.span8.search-query{ :type => "text", :name => :ids, :value => params[:ids] }
+      %p
+        %label{ :for => :ciks } by CIKs
+        %input.span8.search-query{ :type => "text", :name => :ciks, :value => params[:ciks] }
+      %p
+        %label{ :for => :company_name } by Company Name
+        %input.span8.search-query{ :type => "text", :name => :company_name, :value => params[:company_name] }
+      %p
+        %label{ :for => :contact_name } by Contact Name
+        %input.span8.search-query{ :type => "text", :name => :contact_name, :value => params[:contact_name] }
+      %p
+        %label{ :for => :time_zone } by Time Zone
+        %input.span8.search-query{ :type => "text", :name => :time_zone, :value => params[:time_zone] }
+      %p
+        %label{ :for => :filing_agent } by Filing Agent
+        %input.span8.search-query{ :type => "text", :name => :filing_agent, :value => params[:filing_agent]}
+      - if @admin
+        %p
+          %label{ :for => :user_id } by Assigned User
+          = select_tag :user_id, options_for_select(users, params[:user_id]), :include_blank => true, :class => "span8 search-query"
+      %p
+        %button.btn.btn-primary{:type => "submit"}
+          Search

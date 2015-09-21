@@ -1,0 +1,24 @@
+%h2 Daily Calls
+
+%table.table.table-bordered.table-striped
+  %thead
+    %tr
+      %th
+      %th Voicemails
+      %th Callback Later
+      %th Requested Email
+      %th Inbound Call
+      %th Scheduled Demo
+      %th Not Interested
+      %th Total # of Calls
+  %tbody
+    - @users.each do |user|
+      %tr
+        %td= link_to user.first_name, admin_user_events_path(user, :date => @date)
+        %td= user.call_events.voicemail.by_date(@date).count
+        %td= user.call_events.callback_later.by_date(@date).count
+        %td= user.call_events.requested_email.by_date(@date).count
+        %td= user.call_events.inbound_call.by_date(@date).count
+        %td= user.call_events.scheduled_demo.by_date(@date).count
+        %td= user.call_events.not_interested.by_date(@date).count
+        %td= user.call_events.by_date(@date).count

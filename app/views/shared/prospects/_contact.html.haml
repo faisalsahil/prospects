@@ -1,0 +1,11 @@
+.row-fluid
+  .span12
+    - if prospect.contact_position.present?
+      %h2
+        %span.rest-in-place{ "data-attribute" => "contact_name" }= prospect.contact_name.presence || 'n/a'
+        ,
+        %span.rest-in-place{ "data-attribute" => "contact_position" }= prospect.contact_position.try(:titleize).presence || 'n/a'
+    - else
+      %h2
+        %span.rest-in-place{ "data-attribute" => "contact_name" }= prospect.contact_name.presence || 'n/a'
+    %span.rest-in-place{ "data-attribute" => "contact_email" }= prospect.contact_email.presence || 'n/a'

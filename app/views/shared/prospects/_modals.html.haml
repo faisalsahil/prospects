@@ -1,0 +1,89 @@
+#call-modal.modal.hide
+  = form_for prospect.new_call_event, :as => :event, :url => api_events_path, :html => { :multipart => true } do |f|
+    .modal-header
+      %button.close{ :type => "button", "data-dismiss" => "modal" } &times;
+      %h4 Called Prospect
+    .modal-body
+      %strong Type
+      %p= f.select :type, options_for_select(Event::Call::TYPES)
+      %strong Notes
+      %p= f.text_area :response, :placeholder => "Call Notes", :style => "width: 100%; height: 4em;"
+      %strong Attach File
+      .fileupload.fileupload-new{ "data-provides" => :fileupload }
+        .input-append
+          .uneditable-input.span3
+            %i.iconic-file.fileupload-exists
+            %span.fileupload-preview
+          %span.btn.btn-file
+            %span.fileupload-new Select file
+            %span.fileupload-exists Change
+            = f.file_field :file
+          %a.btn.fileupload-exists{ :href => "#", "data-dismiss" => "fileupload" } Remove
+      %p
+        .row-fluid
+          .span6
+            %strong Follow-up or Demo Date/Time
+            = f.text_field :follow_up, :placeholder => "Callback/Demo time", :style => "height: 1.5em;", :class => "datepicker"
+          .span6
+      = f.hidden_field :user_id
+      = f.hidden_field :prospect_id
+      = f.hidden_field :category
+    .modal-footer
+      %p.pull-left
+        Press 'c' to open this dialog.
+      %a.btn{ "data-dismiss" => "modal" } Cancel
+      %button.btn.btn-primary{ :type => :submit, "data-loading-text" => "Saving", :onclick => "$(this).html('Saving...');" } Log Call
+
+#email-modal.modal.hide
+  = form_for prospect.new_sent_email, :as => :email, :url => api_emails_path, :remote => true do |f|
+    .modal-header
+      %button.close{ :type => "button", "data-dismiss" => "modal" } &times;
+      %h4 Email Prospect
+    .modal-body
+      %p
+        %strong Email Address (comma-separated)
+        = f.text_field :to, :placeholder => "Email Address", :style => "width: 90%;"
+      %p
+        %strong Name of Prospect
+        = f.text_field :name, :placeholder => "Name of Prospect", :style => "width: 90%;"
+      %p
+        %strong Campaign
+        %br
+        = f.select :campaign_id, options_for_select(["Default"])
+      .well
+        = render "prospect_mailer/requested_email", :user => current_user, :contact_first_name => "NAME"
+      = f.hidden_field :prospect_id
+      = f.hidden_field :solicited
+    .modal-footer
+      %p.pull-left
+        Press 'e' to open this dialog.
+      %a.btn{ "data-dismiss" => "modal" } Cancel
+      = f.submit 'Send Email', :class => "btn btn-primary"
+
+#tag-modal.modal.hide
+  = form_for [:api, prospect], :remote => true do |f|
+    .modal-header
+      %button.close{ :type => "button", "data-dismiss" => "modal" } &times;
+      %h4 Tag Prospect
+    .modal-body
+      .row-fluid
+        %p Add tags by clicking on the right, or edit the list manually to add/remove tags.
+      .row-fluid
+        .span6
+          %strong Current Tags
+          %p
+            = f.text_field :tag_list, :class => "typeahead", :placeholder => "Comma-separated list of tags"
+        .span6
+          %strong All Tags
+          %p
+            .tags
+              %ul.unstyled.inline
+                - tag_cloud(@tags, %w(tag1 tag2 tag3)) do |tag, css_class|
+                  %li.tag{ :style => "display: inline-block;" }
+                    %a{ :href => "#", :style => "color: white;" }
+                      %span.tag.label.label-info{ :class => css_class } #{tag.name}
+    .modal-footer
+      %p.pull-left
+        Press 't' to open this dialog.
+      %a.btn{ "data-dismiss" => "modal" } Cancel
+      = f.submit 'Tag', :class => "btn btn-primary"

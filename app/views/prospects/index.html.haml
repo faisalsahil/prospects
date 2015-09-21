@@ -1,0 +1,37 @@
+.subnav.subnav-fixed
+  .navbar-inner
+    .container
+      %ul.nav.nav-pills
+        %li
+          %a{ "href" => "#advanced-filter", :onclick => "$('#search').toggle('slide'); return false;" }
+            %i.icon-filter
+            Advanced Filtering
+
+= render "shared/prospects/search"
+
+.pull-right= will_paginate @prospects
+
+.row-fluid
+  .span12
+    %table.table.table-bordered.table-striped
+      %tr
+        %th Priority
+        %th UTC offset
+        %th # of Form4 Filings
+        %th Last Event
+        %th Contact Name
+        %th Company Name
+        %th Filing Agent
+      - @prospects.each do |prospect|
+        %tr
+          %td= prospect.priority
+          %td= prospect.time_zone
+          %td= prospect.form4_filings
+          %td= prospect.last_event_header
+          %td= link_to prospect.contact_name.presence || 'n/a', prospect
+          %td= prospect.company_name
+          %td= prospect.filing_agent
+      - if @prospects.empty?
+        %tr
+          %td{:colspan => 7}
+            .center No prospects available.  Contact an admin to get new prospects.
